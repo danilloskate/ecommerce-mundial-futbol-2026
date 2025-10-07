@@ -99,13 +99,14 @@ canActivate(): boolean {
 ```
 ├── HomeComponent          # Página principal
 ├── ProductsComponent      # Lista de productos
-├── ProductDetailComponent # Detalle del producto
 ├── CartComponent          # Carrito de compras
 ├── CheckoutComponent      # Proceso de pago
 ├── LoginComponent         # Autenticación
 ├── RegisterComponent      # Registro
 ├── AdminComponent         # Panel administrativo
-└── OrdersComponent        # Historial de órdenes
+├── OrdersComponent        # Historial de órdenes
+├── HeaderComponent        # Navegación principal
+└── SuccessComponent       # Confirmación de compra
 ```
 
 #### **Servicios (Business Logic)**
@@ -119,7 +120,7 @@ OrderService    // Gestión de órdenes
 #### **Guards y Interceptors**
 ```typescript
 AuthGuard       // Protección de rutas
-AuthInterceptor // Inyección automática de tokens
+AuthInterceptor // Inyección automática de tokens JWT
 ```
 
 #### **Pipes Personalizados**
@@ -134,7 +135,16 @@ ColombianCurrencyPipe // Formato de moneda COP
 ├── auth.js      # Autenticación (registro/login)
 ├── products.js  # CRUD productos
 ├── orders.js    # Gestión de órdenes
+
+├── cart.js      # Validación de carrito
 └── upload.js    # Subida de archivos
+```
+
+#### **Capa de Modelos**
+```
+├── User.js      # Modelo de usuario
+├── Product.js   # Modelo de producto
+└── Order.js     # Modelo de orden
 ```
 
 #### **Capa de Middleware**
@@ -470,9 +480,12 @@ try {
 
 ### **Estadísticas de Código**
 - **Líneas de código**: ~3,500 (Frontend + Backend)
-- **Componentes Angular**: 9
-- **Servicios**: 4
-- **Rutas API**: 12
+- **Componentes Angular**: 10 (Home, Products, Cart, Checkout, Login, Register, Admin, Orders, Header, Success)
+- **Servicios Frontend**: 5 (Auth, Product, Cart, Order + Interceptor)
+- **Modelos Frontend**: 4 (User, Product, Order, Cart)
+- **Modelos Backend**: 3 (User.js, Product.js, Order.js)
+- **Rutas Backend**: 5 (auth, products, orders, cart, upload)
+- **Endpoints API**: 9
 - **Pruebas unitarias**: 15+
 - **Archivos de configuración**: 8
 

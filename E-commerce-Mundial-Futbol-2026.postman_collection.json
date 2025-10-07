@@ -1,0 +1,616 @@
+{
+	"info": {
+		"_postman_id": "e-commerce-mundial-futbol-2026",
+		"name": "E-commerce Mundial Fútbol 2026 - API",
+		"description": "Colección completa para probar la API del E-commerce Mundial de Fútbol 2026",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "🔐 Autenticación",
+			"item": [
+				{
+					"name": "Registro de Usuario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Juan Pérez\",\n  \"email\": \"juan@test.com\",\n  \"password\": \"password123\",\n  \"role\": \"user\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						},
+						"description": "Registra un nuevo usuario en el sistema"
+					}
+				},
+				{
+					"name": "Registro de Admin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Admin Mundial\",\n  \"email\": \"admin@mundial.com\",\n  \"password\": \"admin123\",\n  \"role\": \"admin\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						},
+						"description": "Registra un usuario administrador"
+					}
+				},
+				{
+					"name": "Login Usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.environment.set('authToken', response.token);",
+									"    pm.environment.set('userId', response.user.id);",
+									"    console.log('Token guardado:', response.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"juan@test.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Inicia sesión y obtiene token JWT"
+					}
+				},
+				{
+					"name": "Login Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.environment.set('adminToken', response.token);",
+									"    pm.environment.set('adminId', response.user.id);",
+									"    console.log('Admin token guardado:', response.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@mundial.com\",\n  \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Login como administrador"
+					}
+				}
+			],
+			"description": "Endpoints de autenticación (registro y login)"
+		},
+		{
+			"name": "🛍️ Productos",
+			"item": [
+				{
+					"name": "Listar Todos los Productos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "Obtiene la lista completa de productos"
+					}
+				},
+				{
+					"name": "Filtrar Productos por Categoría",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/products?category=camisetas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "camisetas",
+									"description": "Filtrar por categoría: camisetas, balones, accesorios, souvenirs"
+								}
+							]
+						},
+						"description": "Filtra productos por categoría específica"
+					}
+				},
+				{
+					"name": "Crear Producto - Camiseta Colombia",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    const response = pm.response.json();",
+									"    pm.environment.set('productId1', response.id);",
+									"    console.log('Producto creado con ID:', response.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Camiseta Selección Colombia\",\n  \"description\": \"Camiseta oficial de la Selección Colombia para el Mundial 2026. Material Dri-FIT de alta calidad.\",\n  \"price\": 350000,\n  \"stock\": 25,\n  \"category\": \"camisetas\",\n  \"image_url\": \"colombia-jersey.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "Crea un nuevo producto (camiseta)"
+					}
+				},
+				{
+					"name": "Crear Producto - Balón Oficial",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    const response = pm.response.json();",
+									"    pm.environment.set('productId2', response.id);",
+									"    console.log('Balón creado con ID:', response.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Balón Oficial Mundial 2026\",\n  \"description\": \"Balón oficial del Mundial de Fútbol 2026. Tecnología FIFA Quality Pro.\",\n  \"price\": 520000,\n  \"stock\": 15,\n  \"category\": \"balones\",\n  \"image_url\": \"balon-oficial.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "Crea un balón oficial"
+					}
+				},
+				{
+					"name": "Crear Producto - Gorra",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Gorra Mundial 2026\",\n  \"description\": \"Gorra oficial con logo del Mundial 2026. Ajustable y cómoda.\",\n  \"price\": 85000,\n  \"stock\": 50,\n  \"category\": \"accesorios\",\n  \"image_url\": \"gorra-mundial.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "Crea un accesorio (gorra)"
+					}
+				},
+				{
+					"name": "Actualizar Producto",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Camiseta Selección Colombia - Edición Especial\",\n  \"description\": \"Camiseta oficial de la Selección Colombia para el Mundial 2026. Edición especial con detalles dorados.\",\n  \"price\": 380000,\n  \"stock\": 20,\n  \"category\": \"camisetas\",\n  \"image_url\": \"colombia-jersey-special.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/products/{{productId1}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"{{productId1}}"
+							]
+						},
+						"description": "Actualiza un producto existente"
+					}
+				},
+				{
+					"name": "Reducir Stock de Producto",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"productId\": {{productId1}},\n  \"quantity\": 3\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/products/reduce-stock",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"reduce-stock"
+							]
+						},
+						"description": "Reduce el stock de un producto (simula una venta)"
+					}
+				},
+				{
+					"name": "Eliminar Producto",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/products/{{productId1}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"{{productId1}}"
+							]
+						},
+						"description": "Elimina un producto del catálogo"
+					}
+				}
+			],
+			"description": "Gestión completa de productos (CRUD)"
+		},
+		{
+			"name": "🛒 Carrito",
+			"item": [
+				{
+					"name": "Validar Carrito",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"items\": [\n    {\n      \"productId\": {{productId1}},\n      \"quantity\": 2\n    },\n    {\n      \"productId\": {{productId2}},\n      \"quantity\": 1\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/cart/validate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cart",
+								"validate"
+							]
+						},
+						"description": "Valida el carrito y calcula el total"
+					}
+				},
+				{
+					"name": "Validar Carrito - Stock Insuficiente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"items\": [\n    {\n      \"productId\": {{productId1}},\n      \"quantity\": 100\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/cart/validate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cart",
+								"validate"
+							]
+						},
+						"description": "Prueba validación con stock insuficiente"
+					}
+				}
+			],
+			"description": "Validación de carrito de compras"
+		},
+		{
+			"name": "📦 Órdenes",
+			"item": [
+				{
+					"name": "Crear Orden",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    const response = pm.response.json();",
+									"    pm.environment.set('orderId', response.id);",
+									"    console.log('Orden creada con ID:', response.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": {{userId}},\n  \"items\": [\n    {\n      \"id\": {{productId1}},\n      \"quantity\": 2,\n      \"price\": 350000\n    },\n    {\n      \"id\": {{productId2}},\n      \"quantity\": 1,\n      \"price\": 520000\n    }\n  ],\n  \"total\": 1220000,\n  \"shipping_address\": {\n    \"street\": \"Calle 123 #45-67\",\n    \"city\": \"Bogotá\",\n    \"country\": \"Colombia\",\n    \"zipCode\": \"110111\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"orders"
+							]
+						},
+						"description": "Crea una nueva orden de compra"
+					}
+				},
+				{
+					"name": "Obtener Mis Órdenes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/orders/my-orders?user_id={{userId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"my-orders"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "{{userId}}"
+								}
+							]
+						},
+						"description": "Obtiene las órdenes del usuario autenticado"
+					}
+				},
+				{
+					"name": "Crear Orden Completa - Ejemplo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 1,\n  \"items\": [\n    {\n      \"id\": 1,\n      \"quantity\": 1,\n      \"price\": 350000\n    },\n    {\n      \"id\": 2,\n      \"quantity\": 2,\n      \"price\": 85000\n    }\n  ],\n  \"total\": 520000,\n  \"shipping_address\": {\n    \"street\": \"Carrera 15 #32-41\",\n    \"city\": \"Medellín\",\n    \"country\": \"Colombia\",\n    \"zipCode\": \"050001\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"orders"
+							]
+						},
+						"description": "Ejemplo de orden completa con múltiples productos"
+					}
+				}
+			],
+			"description": "Gestión de órdenes de compra"
+		},
+		{
+			"name": "🔧 Utilidades",
+			"item": [
+				{
+					"name": "Test Conexión Base de Datos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/test",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"test"
+							]
+						},
+						"description": "Verifica la conexión con la base de datos PostgreSQL"
+					}
+				}
+			],
+			"description": "Endpoints de utilidad y testing"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}

@@ -95,10 +95,16 @@ backend/
 │   ├── auth.js             # Autenticación (registro/login)
 │   ├── products.js         # CRUD productos
 │   ├── orders.js           # Gestión de órdenes
+│   ├── cart.js             # Validación de carrito
 │   └── upload.js           # Subida de imágenes
+├── models/
+│   ├── User.js             # Modelo de usuario
+│   ├── Product.js          # Modelo de producto
+│   └── Order.js            # Modelo de orden
 ├── middleware/
 │   └── auth.js             # Middleware JWT
 ├── tests/                  # Pruebas unitarias Jest
+├── .env                    # Variables de entorno
 └── server.js               # Servidor Express
 ```
 
@@ -108,22 +114,25 @@ frontend/src/app/
 ├── components/
 │   ├── home/               # Página principal
 │   ├── products/           # Lista de productos
-│   ├── product-detail/     # Detalle del producto
 │   ├── cart/               # Carrito de compras
 │   ├── checkout/           # Proceso de pago
 │   ├── login/              # Inicio de sesión
 │   ├── register/           # Registro de usuario
 │   ├── admin/              # Panel de administración
-│   └── orders/             # Historial de órdenes
+│   ├── orders/             # Historial de órdenes
+│   ├── header/             # Navegación principal
+│   └── success/            # Confirmación de compra
 ├── services/
 │   ├── auth.service.ts     # Servicio de autenticación
 │   ├── product.service.ts  # Servicio de productos
 │   ├── cart.service.ts     # Servicio del carrito
-│   └── order.service.ts    # Servicio de órdenes
+│   ├── order.service.ts    # Servicio de órdenes
+│   └── auth.interceptor.ts # Interceptor JWT
 ├── models/
 │   ├── user.model.ts       # Modelo de usuario
 │   ├── product.model.ts    # Modelo de producto
-│   └── order.model.ts      # Modelo de orden
+│   ├── order.model.ts      # Modelo de orden
+│   └── cart.model.ts       # Modelo del carrito
 ├── guards/
 │   └── auth.guard.ts       # Guard de autenticación
 ├── pipes/
@@ -136,23 +145,20 @@ frontend/src/app/
 ### Autenticación
 - `POST /api/auth/register` - Registro de usuario
 - `POST /api/auth/login` - Inicio de sesión
-- `GET /api/auth/profile` - Perfil del usuario
 
 ### Productos
 - `GET /api/products` - Listar productos (con filtros)
-- `GET /api/products/:id` - Obtener producto
-- `POST /api/products` - Crear producto (admin)
-- `PUT /api/products/:id` - Actualizar producto (admin)
-- `DELETE /api/products/:id` - Eliminar producto (admin)
+- `POST /api/products` - Crear producto
+- `PUT /api/products/:id` - Actualizar producto
+- `DELETE /api/products/:id` - Eliminar producto
+- `POST /api/products/reduce-stock` - Reducir stock de producto
 
 ### Carrito
-- `POST /api/cart/validate` - Validar carrito
+- `POST /api/cart/validate` - Validar carrito y calcular total
 
 ### Órdenes
 - `POST /api/orders` - Crear orden
 - `GET /api/orders/my-orders` - Órdenes del usuario
-- `GET /api/orders` - Todas las órdenes (admin)
-- `PUT /api/orders/:id/status` - Actualizar estado (admin)
 
 ## Principios Aplicados
 
@@ -163,10 +169,16 @@ frontend/src/app/
 - **I**: Segregación de interfaces
 - **D**: Inversión de dependencias
 
-### DRY
-- Reutilización de componentes
-- Servicios compartidos
-- Middleware reutilizable
+### DRY (Don't Repeat Yourself)
+- **Servicios reutilizables**: AuthService, ProductService compartidos en múltiples componentes
+- **Middleware centralizado**: JWT middleware aplicado en múltiples rutas del backend
+- **Pipes personalizados**: ColombianCurrencyPipe usado en toda la aplicación
+- **Configuración única**: Pool de conexiones PostgreSQL centralizado
+- **Interfaces TypeScript**: Modelos compartidos entre servicios y componentes
+- **Estilos centralizados**: Tema Davivienda aplicado globalmente
+- **HTTP Interceptors**: Token JWT agregado automáticamente a todas las requests
+- **Scripts automatizados**: test-all.sh para ejecutar todas las pruebas
+- **Funciones helper**: Validaciones y utilidades reutilizadas
 
 ## Base de Datos
 
