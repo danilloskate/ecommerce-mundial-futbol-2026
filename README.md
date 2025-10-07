@@ -231,22 +231,138 @@ frontend/src/app/
 ## Principios Aplicados
 
 ### SOLID
-- **S**: Cada clase tiene una responsabilidad única
-- **O**: Abierto para extensión, cerrado para modificación
-- **L**: Principio de sustitución de Liskov
-- **I**: Segregación de interfaces
-- **D**: Inversión de dependencias
+
+#### **S - Single Responsibility Principle (Responsabilidad Única)**
+Cada clase/servicio tiene una sola razón para cambiar:
+- **AuthService**: Solo maneja autenticación (login, registro, tokens)
+- **ProductService**: Solo gestiona productos (CRUD, stock)
+- **CartService**: Solo maneja carrito (agregar, remover, calcular)
+- **OrderService**: Solo gestiona órdenes (crear, consultar)
+- **AuthGuard**: Solo protege rutas
+- **ColombianCurrencyPipe**: Solo formatea moneda
+
+#### **O - Open/Closed Principle (Abierto/Cerrado)**
+Abierto para extensión, cerrado para modificación:
+- **Servicios Angular**: Nuevos métodos sin modificar existentes
+- **Middleware Express**: Nuevos middlewares sin cambiar los actuales
+- **Interfaces TypeScript**: Extensibles con nuevas propiedades
+- **Componentes**: Reutilizables con diferentes inputs
+
+#### **L - Liskov Substitution Principle (Sustitución de Liskov)**
+Subclases sustituibles por sus clases base:
+- **Interfaces Product**: Diferentes implementaciones (ProductModel, ProductDTO)
+- **Guards**: AuthGuard intercambiable con otros guards
+- **Pipes**: ColombianCurrencyPipe sustituible por otros pipes de formato
+
+#### **I - Interface Segregation Principle (Segregación de Interfaces)**
+Interfaces específicas, no genéricas:
+- **User**: Separado de UserAuth y UserProfile
+- **Product**: Separado de ProductCreate y ProductUpdate
+- **Order**: Separado de OrderCreate y OrderItem
+- **API Responses**: Interfaces específicas por endpoint
+
+#### **D - Dependency Inversion Principle (Inversión de Dependencias)**
+Depender de abstracciones, no de concreciones:
+- **Angular DI**: Servicios inyectados, no instanciados directamente
+- **Database Pool**: Configuración abstracta, implementación específica
+- **HTTP Client**: Abstracción de Angular, no fetch directo
+- **JWT Strategy**: Abstracción de autenticación
 
 ### DRY (Don't Repeat Yourself)
-- **Servicios reutilizables**: AuthService, ProductService compartidos en múltiples componentes
-- **Middleware centralizado**: JWT middleware aplicado en múltiples rutas del backend
-- **Pipes personalizados**: ColombianCurrencyPipe usado en toda la aplicación
-- **Configuración única**: Pool de conexiones PostgreSQL centralizado
-- **Interfaces TypeScript**: Modelos compartidos entre servicios y componentes
-- **Estilos centralizados**: Tema Davivienda aplicado globalmente
-- **HTTP Interceptors**: Token JWT agregado automáticamente a todas las requests
-- **Scripts automatizados**: test-all.sh para ejecutar todas las pruebas
-- **Funciones helper**: Validaciones y utilidades reutilizadas
+
+#### **Frontend - Reutilización Angular**
+- **AuthService**: Compartido en Login, Register, Header, Guards
+  ```typescript
+  // Usado en 5+ componentes
+  constructor(private authService: AuthService) {}
+  ```
+- **ProductService**: Reutilizado en Products, Admin, Cart
+  ```typescript
+  // Un servicio, múltiples consumidores
+  getProducts(), createProduct(), updateProduct()
+  ```
+- **ColombianCurrencyPipe**: Usado en Products, Cart, Orders, Checkout
+  ```html
+  <!-- Mismo pipe en toda la app -->
+  {{ price | colombianCurrency }}
+  ```
+- **HTTP Interceptor**: Token JWT automático en TODAS las requests
+  ```typescript
+  // Una configuración, todas las llamadas protegidas
+  req.clone({ setHeaders: { Authorization: `Bearer ${token}` } })
+  ```
+
+#### **Backend - Reutilización Node.js**
+- **Database Pool**: Una configuración, todas las rutas
+  ```javascript
+  // config/database.js - Usado en auth.js, products.js, orders.js
+  const pool = require('../config/database');
+  ```
+- **Auth Middleware**: Aplicado en múltiples rutas
+  ```javascript
+  // middleware/auth.js - Reutilizado en 4+ rutas
+  app.use('/api/products', authMiddleware);
+  app.use('/api/orders', authMiddleware);
+  ```
+- **Error Handling**: Patrón consistente
+  ```javascript
+  // Mismo patrón en todas las rutas
+  try { /* lógica */ } catch (error) { 
+    res.status(500).json({ error: error.message }); 
+  }
+  ```
+
+#### **Configuración Centralizada**
+- **Environment Variables**: Un .env para todo el backend
+  ```bash
+  # Una configuración, múltiples usos
+  DB_HOST, DB_PORT, JWT_SECRET, CORS_ORIGIN
+  ```
+- **Angular Material Theme**: Un tema para toda la app
+  ```scss
+  // styles.css - Colores Davivienda globales
+  --primary-color: #d32f2f; --accent-color: #ffc107;
+  ```
+- **TypeScript Interfaces**: Modelos compartidos
+  ```typescript
+  // models/ - Reutilizados en servicios y componentes
+  export interface Product, User, Order, CartItem
+  ```
+
+#### **Scripts y Automatización**
+- **test-all.sh**: Un script para todas las pruebas
+  ```bash
+  # Backend + Frontend en un comando
+  cd backend && npm test && cd ../frontend && npm test
+  ```
+- **Docker Compose**: Una configuración para desarrollo
+  ```yaml
+  # docker-compose.yml - PostgreSQL para todo el equipo
+  services: postgres: image: postgres:15
+  ```
+
+#### **Validaciones Reutilizables**
+- **Email Validation**: Misma lógica en frontend y backend
+- **Stock Validation**: Reutilizada en cart.js y products.js
+- **JWT Validation**: Centralizada en middleware/auth.js
+- **CORS Configuration**: Una configuración para todos los endpoints
+
+### Beneficios Logrados
+
+#### **Mantenibilidad**
+- ✅ Cambios en un lugar se reflejan en toda la app
+- ✅ Código predecible y consistente
+- ✅ Fácil debugging y testing
+
+#### **Escalabilidad**
+- ✅ Nuevos componentes reutilizan servicios existentes
+- ✅ Nuevas rutas reutilizan middleware existente
+- ✅ Nuevas funcionalidades siguen patrones establecidos
+
+#### **Productividad**
+- ✅ Desarrollo más rápido con componentes reutilizables
+- ✅ Menos bugs por código duplicado
+- ✅ Testing más eficiente con mocks centralizados
 
 ## Base de Datos
 
