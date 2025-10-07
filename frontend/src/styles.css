@@ -1,0 +1,88 @@
+/* Estilos globales */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff8e1;
+  margin: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Utilidades */
+.text-center {
+  text-align: center;
+}
+
+.mt-1 { margin-top: 1rem; }
+.mt-2 { margin-top: 2rem; }
+.mb-1 { margin-bottom: 1rem; }
+.mb-2 { margin-bottom: 2rem; }
+
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #d32f2f;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #b71c1c;
+}
+
+/* Override Material Design purple colors */
+.mat-primary {
+  background-color: #d32f2f !important;
+  color: white !important;
+}
+
+.mat-accent {
+  background-color: #ffc107 !important;
+  color: #333 !important;
+}
+
+.mat-mdc-chip.mdc-evolution-chip--selected {
+  background-color: #d32f2f !important;
+  color: white !important;
+}
+
+.mat-mdc-chip {
+  border: 1px solid #d32f2f !important;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 0.5rem;
+  }
+}
