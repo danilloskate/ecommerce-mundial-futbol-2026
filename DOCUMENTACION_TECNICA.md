@@ -577,5 +577,5 @@ El proyecto representa un ejemplo completo de desarrollo full-stack moderno, apl
 **Desarrollado por**: Daniel Zapata  
 **GitHub**: [@danilloskate](https://github.com/danilloskate)  
 **Repositorio**: [ecommerce-mundial-futbol-2026](https://github.com/danilloskate/ecommerce-mundial-futbol-2026)  
-**Fecha**: Ocrubre 2025  
+**Fecha**: Octubre 2025  
 **Tecnologías**: Angular 17, Node.js, PostgreSQL, TypeScript

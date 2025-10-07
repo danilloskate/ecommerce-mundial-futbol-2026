@@ -323,7 +323,7 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 
 ## 📞 Contacto
 
-**Desarrollador**: [Daniel Osorio](https://github.com/danilloskate)  
+**Desarrollador**: [Daniel Zapata](https://github.com/danilloskate)  
 **Proyecto**: [E-commerce Mundial Fútbol 2026](https://github.com/danilloskate/ecommerce-mundial-futbol-2026)  
 **Demo**: [Ver aplicación en vivo](https://github.com/danilloskate/ecommerce-mundial-futbol-2026)
 
