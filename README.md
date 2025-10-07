@@ -142,23 +142,91 @@ frontend/src/app/
 
 ## API Endpoints
 
-### Autenticación
+### 🔐 Autenticación
 - `POST /api/auth/register` - Registro de usuario
+  ```json
+  {
+    "name": "Juan Pérez",
+    "email": "juan@test.com",
+    "password": "password123",
+    "role": "user"
+  }
+  ```
 - `POST /api/auth/login` - Inicio de sesión
+  ```json
+  {
+    "email": "juan@test.com",
+    "password": "password123"
+  }
+  ```
 
-### Productos
-- `GET /api/products` - Listar productos (con filtros)
-- `POST /api/products` - Crear producto
-- `PUT /api/products/:id` - Actualizar producto
+### 🛏️ Productos
+- `GET /api/products` - Listar todos los productos
+- `GET /api/products?category=camisetas` - Filtrar por categoría
+- `POST /api/products` - Crear nuevo producto
+  ```json
+  {
+    "name": "Camiseta Colombia",
+    "description": "Camiseta oficial",
+    "price": 350000,
+    "stock": 25,
+    "category": "camisetas",
+    "image_url": "colombia.jpg"
+  }
+  ```
+- `PUT /api/products/:id` - Actualizar producto existente
 - `DELETE /api/products/:id` - Eliminar producto
-- `POST /api/products/reduce-stock` - Reducir stock de producto
+- `POST /api/products/reduce-stock` - Reducir stock (para ventas)
+  ```json
+  {
+    "productId": 1,
+    "quantity": 3
+  }
+  ```
 
-### Carrito
+### 🛍️ Carrito
 - `POST /api/cart/validate` - Validar carrito y calcular total
+  ```json
+  {
+    "items": [
+      {
+        "productId": 1,
+        "quantity": 2
+      },
+      {
+        "productId": 2,
+        "quantity": 1
+      }
+    ]
+  }
+  ```
 
-### Órdenes
-- `POST /api/orders` - Crear orden
-- `GET /api/orders/my-orders` - Órdenes del usuario
+### 📦 Órdenes
+- `POST /api/orders` - Crear nueva orden
+  ```json
+  {
+    "user_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "quantity": 2,
+        "price": 350000
+      }
+    ],
+    "total": 700000,
+    "shipping_address": {
+      "street": "Calle 123 #45-67",
+      "city": "Bogotá",
+      "country": "Colombia",
+      "zipCode": "110111"
+    }
+  }
+  ```
+- `GET /api/orders/my-orders?user_id=1` - Obtener órdenes del usuario
+
+### 🔧 Utilidades
+- `GET /api/test` - Verificar conexión con base de datos
+- `POST /api/upload` - Subir imágenes de productos
 
 ## Principios Aplicados
 
