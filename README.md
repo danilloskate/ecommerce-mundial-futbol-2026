@@ -493,17 +493,12 @@ cd frontend && npm install && npm start
 ## 📚 Documentación
 
 - **[Documentación Técnica Completa](DOCUMENTACION_TECNICA.md)** - Arquitectura, patrones y detalles técnicos
-- **[API Documentation](backend/README.md)** - Endpoints y ejemplos de uso
-- **[Frontend Guide](frontend/README.md)** - Componentes y servicios
+
 
 ## 👥 Credenciales de Prueba
 
 - **Admin**: `admin@mundial.com` / `admin123`
 - **Usuario**: Crear cuenta nueva en el registro
-
-## 📊 Demo
-
-![Demo Screenshot](https://via.placeholder.com/800x400/d32f2f/ffffff?text=E-commerce+Mundial+de+F%C3%BAtbol+2026)
 
 ## 🤝 Contribuir
 
